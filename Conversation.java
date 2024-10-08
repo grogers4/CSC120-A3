@@ -1,23 +1,38 @@
-import java.io.InputStream;
 import java.util.Scanner;  // Import the Scanner class
 import java.lang.reflect.Array; // Import Array class
 import java.util.Random; //Import Random class
 
 /*class for the conversation, contains all substantive code */
 class Conversation {
-/*returns a random number within a given range
- * paramaters are minimun (inclusive) and maximum (exclusive) for the desired range
- * returns a random number within the given range
-*/
-  public static int get_Random_Number(int min, int max) {
+
+  /*array of strings containing the canned responses */
+  static String[] canned_responses = {"wow", "interesting", "I see", "uh huh", "oh"};
+
+  /**
+  * returns a random number within a given range
+  * @param int minimun (inclusive) for the begining of the range 
+  * @param int maximum (exclusive) for the end of the desried range
+  * @returns a random number within the given range
+  */
+  public static int getRandomNumber(int min, int max) {
     Random random = new Random();
     return random.ints(min, max)
     .findFirst()
     .getAsInt();
   }
-/* mirror words separated by spaces to detect presence of keywords in user's input without splitting */
+
+  /**
+   * method to obtain a random canned response
+   * @returns a random string selected from canned_responses
+   */
+    public static String getResponse() {
+      String convo_response = canned_responses[getRandomNumber(0, 5)];
+      return convo_response;
+    }
+
+  /* mirror words separated by spaces to detect presence of keywords in user's input without splitting */
   static String[] keywords_user = {" I ", " me ", " am ", " you ", " my ", " your ", " I'm ", " you're ", " are "};
-/* mirror words and replacements for response from user's input */
+  /* mirror words and replacements for response from user's input */
   static String[] keywords_user_unspaced = {"I", "me", "am", "you", "my", "your", "I'm", "you're", "are"};
   static String[] keywords_replacement_unspaced = {"you", "you", "are", "I", "your", "my", "you're", " I'm ", " am "};
 
@@ -74,10 +89,8 @@ class Conversation {
           Array.set(transcript, transcript_place, convo_response);
           transcript_place += 1;
           System.out.println(convo_response);
-        }
-        else {
-          String[] canned_responses = {"wow", "interesting", "I see", "uh huh", "oh"};
-          String convo_response = canned_responses[get_Random_Number(0, 5)];
+        } else {
+          String convo_response = getResponse();
           Array.set(transcript, transcript_place, convo_response);
           transcript_place += 1;
           System.out.println(convo_response);
@@ -90,6 +103,5 @@ class Conversation {
     for (int n = 0; n < transcript_number; n++) {
       System.out.println(transcript[n]);
     }
-    
-
-  }}
+  }
+}
